@@ -1,14 +1,17 @@
 import requests
 import random
 import os
+import shutil
 
 
 class RadioNewsRipper:
-    def __init__(self, url, length_sec):
+    def __init__(self, url, length_sec, location, name):
 
         self.url = url
         self.length_sec = int(length_sec)
         self.tmp_folder = "rec_" + str(random.randint(1, 10000))
+        self.final_folder = location
+        self.file_name = name
         return
 
     def record(self):
@@ -22,6 +25,23 @@ class RadioNewsRipper:
         print(exec_str)
         os.system(exec_str)
         print("Ready recording")
+        print("Getting and moving mp3-file")
+        existing_files = os.listdir(self.tmp_folder)
+        tmp_mp3_filename = None
+        for f in existing_files:
+            mp3_pos = f.find(".mp3")
+            if mp3_pos != -1:
+                tmp_mp3_filename = f
+                break
+
+        if not tmp_mp3_filename :
+            print("Error: Could not find recorded file")
+            return
+
+
+        os.rename(self.tmp_folder+"/"+tmp_mp3_filename, self.final_folder + "/" + self.file_name + ".mp3")
+        shutil.rmtree(self.tmp_folder)
+        print("Ready")
         return
 
     def __checkurl(self):
