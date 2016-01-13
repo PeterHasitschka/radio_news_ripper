@@ -9,7 +9,7 @@ class RadioNewsRipper:
 
         self.url = url
         self.length_sec = int(length_sec)
-        self.tmp_folder = "rec_" + str(random.randint(1, 10000))
+        self.tmp_folder = "/tmp/rec_" + str(random.randint(1, 10000))
         self.final_folder = location
         self.file_name = name
         return
